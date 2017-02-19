@@ -1,13 +1,20 @@
 from Tkinter import *
 
-class CreateUI:
+class CreateUI(Frame):
 
-    def __init__(self):
+    def __init__(self, master):
+        Frame.__init__(self, master)
+        self.grid()
+        self.create_upper_HUD
+        self.create_lower_HUD
+        self.create_field
         
+    def create_upper_HUD(self):
+        print 'Empty stuffs'
+    
+    def create_lower_HUD(self):
+        print 'awsome space of blaknkness'
         
-    def start():
-        root = TK()
-        root.title(title)
-        root.geometry("size")
+    def create_field(self):
+        print 'space of emptiness'
         
-        root.mainloop()

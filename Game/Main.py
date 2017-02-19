@@ -1,4 +1,10 @@
 from CreateUI import *
+from Tkinter import *
 
-newUI = CreateUI("Test", "480x640")
-newUI.start()
+root = Tk()
+root.title("RNGArena")
+root.geometry("480x640")
+
+app = CreateUI(root)
+
+root.mainloop()
