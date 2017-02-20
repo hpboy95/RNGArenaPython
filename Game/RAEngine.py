@@ -160,12 +160,13 @@ class Engine():
             count += 1
         return selectArray
 
+    def run(self, expression)
 
-gameIn = input("Please Type the location of your game folder>>")
-print(gameIn)
-#game = Engine(gameIn)
+gameIn = raw_input("Please Type the location of your game folder>>")
+game = Engine(gameIn)
+game.setPlayer
+game.getNewMonster
 
-"""
 more_input = True
 while more_input:
     expression = "RNGArena>>"
