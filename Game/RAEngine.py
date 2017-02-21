@@ -13,6 +13,7 @@ from plistlib import *
 from random import *
 
 """
+C:\Users\HP\Desktop\Code\RNGArenaPython\Game
 datalist = readPlist("C:\Users\Rollie Valdez\Desktop\code\RNGArenaPython\Game\Data.plist")
 
 tmp1 = len(datalist.get("MonsterNames"))
@@ -107,8 +108,16 @@ class Player(Character):
          self.abilityData = abilityData
          
     def setPlayer(self):
-        rand1 = randint(1, len(abilityData))
-        data1 = abilityData[str(rand1)]
+        rand1 = randint(1, len(self.abilityData) - 1)
+        data1 = self.abilityData[(rand1)]
+        
+        ability1 = Ability(data1["Name"], data1["Damage"])
+        blankAbility = Ability("None", 0)
+        self.setAbility(ability1, 1)
+        self.setAbility(blankAbility, 2)
+        self.setAbility(blankAbility, 3)
+        self.setAbility(blankAbility, 4)
+        
 
 class Engine(): 
     
@@ -117,7 +126,7 @@ class Engine():
         datalist = readPlist(fullPath)
         self.score = 0
         self.highScore = 0
-        self.currentMonster = None
+        self.currentMonster = ""
         self.player = None
         self.levelData = "empty"
         self.monsterNames = datalist.get("MonsterNames")
@@ -131,10 +140,10 @@ class Engine():
             tmp = currentMonaster.getAbility(abilityNumber)
             currentMonster.take_damage(tmp. player)
     
-    def setPlayer(self):
-        abilityNames = self.abilityNames
-        self.player = Player(abilityNames)
-        
+    def startPlayer(self):
+        tmp = Player(self.abilityNames)
+        self.player = Player(self.abilityNames)
+        self.player.setPlayer()
 
     def getNewMonster(self):
         self.currentMonster = Monster(self.monsterNames, self.abilityNames)
@@ -159,21 +168,61 @@ class Engine():
             
             count += 1
         return selectArray
+   
 
-    def run(self, expression)
+#gameIn = raw_input("Please Type the location of your game folder>>")
+game = Engine("C:\Users\HP\Desktop\Code\RNGArenaPython\Game")
+game.startPlayer()
+game.getNewMonster()
+choosing = False
+helping = False
 
-gameIn = raw_input("Please Type the location of your game folder>>")
-game = Engine(gameIn)
-game.setPlayer
-game.getNewMonster
+def gameState():
+    
+    print("Score: 0      Your Health: " +  str(game.player.hp))
+    print("Enemy Name: " + str(game.currentMonster.name))
+    print("Enemy Health: " + str(game.currentMonster.hp))
+    print("Ability 1: " + str(game.player.ability1.name) + " Damage: " + str(game.player.ability1.dmg))
+    print("Ability 2: " + str(game.player.ability2.name) + " Damage: " + str(game.player.ability2.dmg))
+    print("Ability 3: " + str(game.player.ability3.name) + " Damage: " + str(game.player.ability3.dmg))
+    print("Ability 4: " + str(game.player.ability4.name) + " Damage: " + str(game.player.ability4.dmg))
+    
+def help():
+    print("Supported functions are:")
+    print("help")
+    print("Type a number 1-4 to choose an ability or loot")
+    
+    
+def choiceNum():
+    bob="lol"
+    
+
+SUPPORTED_FUNCTIONS = {"help": help, "1": choiceNum, "2": choiceNum, "3": choiceNum, "4": choiceNum}
+
+    
+    
+def run(action):
+    if not action:
+        return
+    if action in SUPPORTED_FUNCTIONS:
+        return SUPPORTED_FUNCTIONS[action]
+    else:
+        error()
+            
+
+def error():
+    print("Error: Nonvalid Operation type help for list of valid operations")
+
 
 more_input = True
 while more_input:
-    expression = "RNGArena>>"
-    if (expression == "q"):
+    gameIn = raw_input("RNGArena>>")
+    if (gameIn == "q"):
         more_input = False
         print('Exiting RNGArena')
     else: 
-        run(gameIn)
-"""
+        result = run(gameIn)
+        result()
+
+
         
