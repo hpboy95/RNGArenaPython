@@ -11,18 +11,18 @@
 
 from plistlib import *
 from random import *
-from test import *
+from RAMonster import *
+from RACharacter import *
+from RAAbility import *
+from RAPlayer import *
 
 """
 Put Complete Paths here for testing
-C:\\Users\\HP\\Desktop\\Code\\RNGArenaPython\\Game
+C:\\Users\\HP\Desktop\\Code\\RNGArenaPython\\Game
 C:\\Users\\Rollie Valdez\\Desktop\\code\\RNGArenaPython\\Game
 """
 
-
-        
-
-class Engine(): 
+class Engine():
     
     def __init__(self, path):
         fullPath = path + "\\Data.plist"
@@ -72,15 +72,10 @@ class Engine():
             count += 1
         return selectArray
    
-game = Engine("C:\Users\Rollie Valdez\Desktop\code\RNGArenaPython\Game")
-game.startPlayer()
-game.getNewMonster()
-print (game.currentMonster.name)
-print (game.player.ability1.name)
 
 '''
 #gameIn = raw_input("Please Type the location of your game folder>>")
-game = Engine("C:\Users\Rollie Valdez\Desktop\code\RNGArenaPython\Game")
+game = Engine("C:\\Users\\Rollie Valdez\\Desktop\\code\\RNGArenaPython\\Game")
 game.startPlayer()
 game.getNewMonster()
 choosing = False
