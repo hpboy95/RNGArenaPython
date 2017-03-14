@@ -39,3 +39,13 @@ class Character:
             self.ability3 = ability
         else:
             self.ability4 = ability
+            
+    def getAbility(self, number):
+        if (number == 1):
+            return self.ability1
+        elif (number == 2):
+            return self.ability2
+        elif (number == 3):
+            return self.ability3
+        else:
+            return self.ability4
