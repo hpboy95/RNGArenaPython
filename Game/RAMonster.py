@@ -1,5 +1,5 @@
 from random import *
-from RACharacter import *
+from RACharacter import Character
 
 #A class defining the characteristics of a character
 class Monster(Character):

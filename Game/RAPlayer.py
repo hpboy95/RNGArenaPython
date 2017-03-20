@@ -1,6 +1,6 @@
 from random import *
-from RACharacter import *
-from RAAbility import *
+from RACharacter import Character
+from RAAbility import Ability
 
 class Player(Character):
     def __init__(self, abilityData):

@@ -11,10 +11,10 @@
 
 from plistlib import *
 from random import *
-from RAMonster import *
-from RACharacter import *
-from RAAbility import *
-from RAPlayer import *
+from RAMonster import Monster
+from RACharacter import Character
+from RAAbility import Ability
+from RAPlayer import Player
 
 """
 Put Complete Paths here for testing
@@ -27,21 +27,26 @@ class Engine():
     def __init__(self, path):
         fullPath = path + "\\Data.plist"
         datalist = readPlist(fullPath)
+        self.playerTurn = False
+        self.gameOver = False
         self.score = 0
         self.highScore = 0
         self.currentMonster = ""
-        self.player = None
+        self.player = ""
         self.levelData = "empty"
         self.monsterNames = datalist.get("MonsterNames")
         self.abilityNames = datalist.get("AbilityNames")
         
-    def dealDamage(self, isPlayer, abiityNumber):
-        if(isPlayer):
-            tmp = player.getAbility(abilityNumber)
-            player.take_damage(tmp, currentMonster)
+    def dealDamage(self, abilityNumber):
+        if(self.playerTurn):
+            tmp = self.player.getAbility(abilityNumber)
+            self.player.take_damage(tmp, self.currentMonster)
+            self.playerTurn = False
         else:
             tmp = self.currentMonster.getAbility(abilityNumber)
-            currentMonster.take_damage(tmp. player)
+            self.currentMonster.take_damage(tmp, self.player)
+            if(self.player.hp <= 0):
+                self.gameOver = True
     
     def startPlayer(self):
         tmp = Player(self.abilityNames)
@@ -54,7 +59,25 @@ class Engine():
         
     def addAbility(self, skill, abilityNumber):
         self.player.setAbility(skill, abilityNumber)
-        
+
+    def getCharacterName(self):
+        if self.playerTurn:
+            return self.player.name
+        else:
+            return self.currentMonster.name
+
+    def getAbilityName(self, num):
+        if (self.playerTurn):
+            return self.player.getAbility(num).name
+        else:
+            return self.currentMonster.getAbility(num).name
+
+    def getAbilityDamage(self, num):
+        if (self.playerTurn):
+            return self.player.getAbility(num).dmg
+        else:
+            return self.currentMonster.getAbility(num).dmg
+
     #Fill the loot array with three random abilities and return the array
     def chooseThree(self):
         selectArray = []
@@ -72,8 +95,17 @@ class Engine():
             count += 1
         return selectArray
    
+game = Engine("C:\\Users\\Rollie Valdez\\Desktop\\code\\RNGArenaPython\\Game")
+game.startPlayer()
+game.getNewMonster()
+randNum = randint(1, 4)
+game.dealDamage(randNum)
+tmpAbility = game.currentMonster.getAbility(randNum)
+print(game.getCharacterName + " cast " +  game.getAbilityName(randNum) +
+            " for "  + game.getAbilityDamage(randNum) +  "damage")
 
 
+'''
 #gameIn = raw_input("Please Type the location of your game folder>>")
 game = Engine("C:\\Users\\Rollie Valdez\\Desktop\\code\\RNGArenaPython\\Game")
 game.startPlayer()
@@ -127,5 +159,5 @@ while more_input:
     else: 
         result = run(gameIn)
         result()
-
+'''
         

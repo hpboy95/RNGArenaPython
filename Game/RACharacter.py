@@ -1,4 +1,5 @@
 from random import *
+from RAAbility import Ability
 
 # A Class to define the properties of a character
 class Character:
@@ -49,3 +50,7 @@ class Character:
             return self.ability3
         else:
             return self.ability4
+
+    def take_damage(self, ab, char1):
+        if ab is Ability:
+            ab.deal_damage(char1)
