@@ -1,11 +1,11 @@
-from RAEngine import Engine
+
 from random import *
 
 class CreateUI():
     
     def __init__(self):
 
-        self.game = Engine("C:\\Users\\HP\Desktop\\Code\\RNGArenaPython\\Game")
+        self.game = Engine("C:\\Users\\HP\\Desktop\\Code\\RNGArenaPython\\Game")
         self.game.startPlayer()
         self.game.getNewMonster()
         self.starting = True
