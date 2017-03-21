@@ -61,6 +61,7 @@ class CreateUI():
         userIn = str.lower(raw_input("Type 'start' for a new game:")) # Fixed this so it doesn't allow you to spam commands other than start after a game.
         if(userIn != 'start'):
             sys.exit(0)
+        else: self.game.score = 0
         #print("Type 'start' for a new game")
 
     def choiceNum(self, number):
