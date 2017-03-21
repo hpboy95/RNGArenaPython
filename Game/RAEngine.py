@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
 # Name:        Engine.swift, RACharacter.swift, RAAbility.Swift, RAMonster.swift
-#              RAPlayer.swift 
-# Purpose:     RNG Arena Game Engine 
-# 
-# Author:  Hezekiah Valdez on 11/1/16 
-# 
-# Copyright © 2016 Hezekiah Valdez. All rights reserved. 
+#              RAPlayer.swift
+# Purpose:     RNG Arena Game Engine
+#
+# Author:  Hezekiah Valdez on 11/1/16
+#
+# Copyright © 2016 Hezekiah Valdez. All rights reserved.
 # -----------------------------------------------------------------------------
 
 from plistlib import *
@@ -24,10 +24,6 @@ class Ability():
         self.name = title
         self.dmg = dmg
 
-    # char1 deals damage to char 2
-    def deal_damage(self, char1):
-        char1.modHP(self.dmg)
-
 """"
 test = Ability("bob", 10)
 print(test.name)
@@ -40,7 +36,7 @@ class Character:
         # Blank initializer for players
         if (isPlayer):
             self.level = 0
-            self.hp = 100
+            self.hp = health
             self.name = "Chuck Norris"
             self.ability1 = None
             self.ability2 = None
@@ -85,10 +81,6 @@ class Character:
         else:
             return self.ability4
 
-    def take_damage(self, ab, char1):
-        if ab is Ability:
-            ab.deal_damage(char1)
-
 #A class defining the characteristics of a character
 class Monster(Character):
     def __init__(self, names, abilityData):
@@ -123,7 +115,7 @@ class Monster(Character):
 
 class Player(Character):
     def __init__(self, abilityData):
-        Character.__init__(self, 69, True)
+        Character.__init__(self, 100, True)
         self.abilityData = abilityData
 
     def setPlayer(self):
@@ -139,12 +131,13 @@ class Player(Character):
 
 
 class Engine():
-    
+
     def __init__(self, path):
         fullPath = path + "\\Data.plist"
         datalist = readPlist(fullPath)
         self.playerTurn = False
         self.gameOver = False
+        self.monsterDead = False
         self.score = 0
         self.highScore = 0
         self.currentMonster = ""
@@ -152,18 +145,20 @@ class Engine():
         self.levelData = "empty"
         self.monsterNames = datalist.get("MonsterNames")
         self.abilityNames = datalist.get("AbilityNames")
-        
-    def dealDamage(self, abilityNumber):
+
+    def dealDamage(self, ability):
         if(self.playerTurn):
-            tmp = self.player.getAbility(abilityNumber)
-            self.player.take_damage(tmp, self.currentMonster)
+            self.currentMonster.hp = self.currentMonster.hp - ability.Damage
+            if(self.currentMonster.hp <= 0):
+                self.monsterDead = True
+                self.score += 1
             self.playerTurn = False
         else:
-            tmp = self.currentMonster.getAbility(abilityNumber)
-            self.currentMonster.take_damage(tmp, self.player)
+            self.player.hp = self.player.hp - ability.Damage
             if(self.player.hp <= 0):
                 self.gameOver = True
-    
+            self.playerTurn = True
+
     def startPlayer(self):
         tmp = Player(self.abilityNames)
         self.player = Player(self.abilityNames)
@@ -172,27 +167,10 @@ class Engine():
     def getNewMonster(self):
         self.currentMonster = Monster(self.monsterNames, self.abilityNames)
         self.currentMonster.setMonster()
-        
+        self.monsterDead = False
+
     def addAbility(self, skill, abilityNumber):
         self.player.setAbility(skill, abilityNumber)
-
-    def getCharacterName(self):
-        if self.playerTurn:
-            return self.player.name
-        else:
-            return self.currentMonster.name
-
-    def getAbilityName(self, num):
-        if (self.playerTurn):
-            return self.player.getAbility(num).name
-        else:
-            return self.currentMonster.getAbility(num).name
-
-    def getAbilityDamage(self, num):
-        if (self.playerTurn):
-            return self.player.getAbility(num).dmg
-        else:
-            return self.currentMonster.getAbility(num).dmg
 
     #Fill the loot array with three random abilities and return the array
     def chooseThree(self):
@@ -200,27 +178,26 @@ class Engine():
         count = 0
         while (count < 3):
             rand1 = randint(0, len(self.abilityNames) - 1)
-            
+
             #Access random ability position
             data1 = self.abilityNames[rand1]
-            
+
             #Create the ability instance
             ability1 = Ability(data1["Name"], data1["Damage"])
             selectArray.append(ability1)
-            
+
             count += 1
         return selectArray
 
-'''
 
+'''
 game = Engine("C:\\Users\\Rollie Valdez\\Desktop\\code\\RNGArenaPython\\Game")
 game.startPlayer()
 game.getNewMonster()
 randNum = randint(1, 4)
 game.dealDamage(randNum)
 tmpAbility = game.currentMonster.getAbility(randNum)
-print(game.getCharacterName + " cast " +  game.getAbilityName(randNum) +
-            " for "  + game.getAbilityDamage(randNum) +  "damage")
+print(game.player.hp)
 '''
 
 '''
@@ -232,7 +209,7 @@ choosing = False
 helping = False
 
 def gameState():
-    
+
     print("Score: 0      Your Health: " +  str(game.player.hp))
     print("Enemy Name: " + str(game.currentMonster.name))
     print("Enemy Health: " + str(game.currentMonster.hp))
@@ -240,21 +217,21 @@ def gameState():
     print("Ability 2: " + str(game.player.ability2.name) + " Damage: " + str(game.player.ability2.dmg))
     print("Ability 3: " + str(game.player.ability3.name) + " Damage: " + str(game.player.ability3.dmg))
     print("Ability 4: " + str(game.player.ability4.name) + " Damage: " + str(game.player.ability4.dmg))
-    
+
 def help():
     print("Supported functions are:")
     print("help")
     print("Type a number 1-4 to choose an ability or loot")
-    
-    
+
+
 def choiceNum():
     bob="lol"
-    
+
 
 SUPPORTED_FUNCTIONS = {"help": help, "1": choiceNum, "2": choiceNum, "3": choiceNum, "4": choiceNum}
 
-    
-    
+
+
 def run(action):
     if not action:
         return
@@ -262,7 +239,7 @@ def run(action):
         return SUPPORTED_FUNCTIONS[action]
     else:
         error()
-            
+
 
 def error():
     print("Error: Nonvalid Operation type help for list of valid operations")
@@ -274,8 +251,7 @@ while more_input:
     if (gameIn == "q"):
         more_input = False
         print('Exiting RNGArena')
-    else: 
+    else:
         result = run(gameIn)
         result()
 '''
-        
