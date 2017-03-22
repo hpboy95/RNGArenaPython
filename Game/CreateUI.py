@@ -1,10 +1,11 @@
 from RAEngine import Engine
 from random import *
+import sys
 
 class CreateUI():
     
     def __init__(self):
-        self.fullPath = "C:\\Users\\Rollie Valdez\\Desktop\\code\\RNGArenaPython\\Game"
+        self.fullPath = "C:\Users\Ray\Desktop\CS156_Project\RNGArenaPython-master\Game" # Put your own path here.
         self.game = Engine(self.fullPath)
         self.game.startPlayer()
         self.game.getNewMonster()
@@ -56,7 +57,12 @@ class CreateUI():
     def gameOver(self):
         print("Game Over")
         print("Score: " + str(self.game.score))
-        print("Type 'start' for a new game")
+        #import sys
+        userIn = str.lower(raw_input("Type 'start' for a new game:")) # Fixed this so it doesn't allow you to spam commands other than start after a game.
+        if(userIn != 'start'):
+            sys.exit(0)
+        else: self.game.score = 0
+        #print("Type 'start' for a new game")
 
     def choiceNum(self, number):
         tmpAbility = self.game.currentMonster.getAbility(number)
