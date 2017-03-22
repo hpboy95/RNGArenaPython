@@ -55,6 +55,8 @@ class Character:
     # modifiys the current character health
     def modHP(self, newHP):
         self.hp = self.hp - newHP
+        if(self.hp < 0):
+            self.hp = 0
 
     # Returns the current HP of a character
     def getCurrentHP(self):
@@ -150,6 +152,7 @@ class Engine():
         if(self.playerTurn):
             self.currentMonster.hp = self.currentMonster.hp - ability.Damage
             if(self.currentMonster.hp <= 0):
+                self.currentMonster.hp = 0
                 self.monsterDead = True
                 self.score += 1
             self.playerTurn = False
