@@ -1,11 +1,12 @@
 from RAEngine import Engine
 from random import *
-import sys
+import sys, os
 
 class CreateUI():
     
     def __init__(self):
-        self.fullPath = "C:\Users\Ray\Desktop\CS156_Project\RNGArenaPython-master\Game" # Put your own path here.
+        #self.fullPath = "C:\Users\Ray\Desktop\CS156_Project\RNGArenaPython-master\Game"
+        self.fullPath = pathname = os.path.dirname(sys.argv[0]) # Think this works (at least for me)
         self.game = Engine(self.fullPath)
         self.game.startPlayer()
         self.game.getNewMonster()
